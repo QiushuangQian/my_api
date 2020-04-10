@@ -75,9 +75,6 @@ def get_data2():
         # shopping_dict[user] = tuple(book_set)
     return rv_dict
 
-def get_data3(user_id):
-    pass
-
 
 def preData(rv_dict):
     data = []
