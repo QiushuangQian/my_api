@@ -17,7 +17,7 @@ def get_data1(user_id):
         orderItem = OrderItem.query.filter_by(userId=user_id)
     except:
         book_list = []
-        return rv_dict, shopping_dict
+        return rv_dict
     # 获取评价过的书的列表
     for i in orderItem:
         book_list.append(i.bookId)
@@ -74,6 +74,10 @@ def get_data2():
         rv_dict[user] = rv_item_dict
         # shopping_dict[user] = tuple(book_set)
     return rv_dict
+
+def get_data3(user_id):
+    pass
+
 
 def preData(rv_dict):
     data = []
@@ -142,6 +146,6 @@ if __name__ == "__main__":
     data = preData(rv_dict)
     trainData = splitData(data,3,17)
     userSim = UserSim(trainData)
-    result = recommend(trainData,userSim,4)
+    result = recommend(trainData,userSim,5)
     print("result is {}".format(result))
 
