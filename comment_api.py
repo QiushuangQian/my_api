@@ -104,3 +104,4 @@ def recommend(trainData, userSim, user):
             result[i] += wuv * rvi
     return dict(sorted(result.items(), key=lambda x: x[1], reverse=True))
 
+app.run()
