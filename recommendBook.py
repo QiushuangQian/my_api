@@ -1,25 +1,4 @@
-import json
-import math
-import random
-
-from flask import Flask, redirect, request, jsonify, session
-from models import db, Book, user, userFavoriteBook, BrowsingHistory, Comment, post_comment_entity, Order, OrderItem, \
-    Sessions, post_entity, shopping_cart_item_entity
-
-app = Flask(__name__)
-app.secret_key = 'sdsdldshag'
-
-
-
-@app.route("/",methods=["GET"])
-def doRecommend():
-    user_id = session.get("userId")
-    if user_id is not None:
-        rv_dict = get_data2()
-        itemSim = ItemSim(rv_dict)
-        result = recommend(rv_dict,itemSim,int(user_id))
-        return jsonify(result=result)
-
+from models import Comment, OrderItem
 
 
 def get_data2():
@@ -98,5 +77,14 @@ def recommend(rv_dict, itemSim, userA):
             result.setdefault(j, 0)
             result[j] += pi * wj
     return dict(sorted(result.items(), key=lambda x: x[1], reverse=True))
+    # user_item_score_dict = dict()
+    # for item in rv_dict[userA].keys():
+    #     user_item_score_dict[item] = preUserScore(rv_dict,itemSim,userA,item)
+    # return user_item_score_dict
 
-app.run()
+
+def funRecommendBook(userId):
+    rv_dict = get_data2()
+    itemSim = ItemSim(rv_dict)
+    result = recommend(rv_dict, itemSim, userId)
+    return result
