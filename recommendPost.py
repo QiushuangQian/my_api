@@ -1,26 +1,11 @@
 import json
 import math
 import random
-import numpy as np
+from operator import itemgetter
 
-from flask import Flask, redirect, request, jsonify, session
 from models import db, Book, user, userFavoriteBook, BrowsingHistory, Comment, post_comment_entity, Order, OrderItem, \
     Sessions, post_entity, shopping_cart_item_entity
 
-app = Flask(__name__)
-app.secret_key = "sdasofgivcsapofu"
-
-app.route("/post")
-def doRecommend(rv_dict,):
-    rv_dict = get_data()
-    data = preData(rv_dict)
-    trainData = splitData(data, 2, 17)
-    userSim = UserSim(trainData)
-    result = recommend(trainData, userSim, 4)
-
-    user_id = session.get("userId")
-    if user_id is not None:
-        return jsonify(result=result)
 
 def get_data():
     dicc = dict()
@@ -104,4 +89,12 @@ def recommend(trainData, userSim, user):
             result[i] += wuv * rvi
     return dict(sorted(result.items(), key=lambda x: x[1], reverse=True))
 
-app.run()
+
+def functional(userId):
+    rv_dict = get_data()
+    print(rv_dict)
+    data = preData(rv_dict)
+    trainData = splitData(data, 2, 17)
+    userSim = UserSim(trainData)
+    result = recommend(trainData, userSim, userId)
+    return result
